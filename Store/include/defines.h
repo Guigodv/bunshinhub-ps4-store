@@ -84,7 +84,7 @@ int32_t netInit(void);
 #define SSL_HEAP_SIZE	(304 * 1024)
 #define HTTP_HEAP_SIZE	MB(5)
 #define NET_HEAP_SIZE   MB(5)
-#define USER_AGENT	"StoreHAX/GL"
+#define USER_AGENT	"BunshinHub/PS4"
 
 #define SCE_SYSMODULE_INTERNAL_SYS_CORE 0x80000004
 #define SCE_SYSMODULE_INTERNAL_NETCTL 0x80000009
@@ -297,7 +297,7 @@ int32_t netInit(void);
 #define SCE_SYSCORE_ERROR_LNC_INVALID_STATE 0x80aa000a
 #define SCE_LNC_UTIL_ERROR_NOT_INITIALIZED 0x80940001
 #define ORBIS_KERNEL_EAGAIN 0x80020023
-#define STORE_TID "NPXS39041"
+#define STORE_TID "BUNSH0001"
 #define GL_CHECK(stmt) if(glGetError() != GL_NO_ERROR) msgok(FATAL, "GL_STATEMENT %s: %x", getLangSTR(FAILED_W_CODE),glGetError());
 #define PS4_OK 0
 #define INIT_FAILED -1
@@ -313,7 +313,7 @@ int  thread_dispatch_index(void);
 
 #if defined(__ORBIS__)
 #define asset_path(x) "/mnt/sandbox/pfsmnt/" STORE_TID "-app0/assets/" x
-#define APP_PATH(x) "/user/app/NPXS39041/" x
+#define APP_PATH(x) "/user/app/BUNSH0001/" x
 typedef struct OrbisGlobalConf
 {
 	OrbisPadConfig *confPad;
