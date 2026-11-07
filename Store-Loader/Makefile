@@ -22,7 +22,8 @@ INTDIR      := build
 
 # Define objects to build
 #CFILES      := $(wildcard $(FT_LIB)/*.c)
-CFILES      := $(wildcard $(PROJDIR)/*.c)
+# msgs.c is an obsolete duplicate implementation of functions in app.c.
+CFILES      := $(filter-out $(PROJDIR)/msgs.c,$(wildcard $(PROJDIR)/*.c))
 CPPFILES    := $(wildcard $(PROJDIR)/*.cpp)
 ASMFILES 	:= $(wildcard $(PROJDIR)/*.s)
 OBJS 		:= $(patsubst $(PROJDIR)/%.s, $(INTDIR)/%.o,  $(ASMFILES)) $(patsubst $(PROJDIR)/%.c, $(INTDIR)/%.o, $(CFILES)) $(patsubst $(PROJDIR)/%.cpp, $(INTDIR)/%.o, $(CPPFILES))
