@@ -710,7 +710,9 @@ static void actions_for_settings(int action, std::shared_ptr<layout_t> &l){
     case RESET_SETTING: {
         log_info("Settings -> Reset");
 
-        set.opt[CDN_URL] = "https://api.pkg-zone.com";
+        // Keep BunshinHub independent of the upstream PS4 Store on reset.
+        // A valid BunshinHub CDN will be configured after its catalog adapter is ready.
+        set.opt[CDN_URL] = "https://bunshinhub.invalid";
         set.opt[TMP_PATH] = "/user/app/BUNSH0001/downloads";
         set.opt[FNT_PATH] = "/system_ex/app/NPXS20113/bdjstack/lib/fonts/SCE-PS3-RD-R-LATIN.TTF";
         
