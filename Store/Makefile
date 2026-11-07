@@ -3,7 +3,7 @@
 TITLE       := BunshinHub
 VERSION     := 2.00
 TITLE_ID    := BUNSH0001
-CONTENT_ID  := IV0002-BUNSH0001_00-STOREUPD00000000
+CONTENT_ID  := IV0002-BUNSH0001_00-BUNSHINHUB000001
 
 # Libraries linked into the ELF.
 LIBS        := -luser_mem_sys -lc++ -lz -ljbc -lc -lkernel  -lcurl  -lpolarssl -lSceVideoOut -lSceNet -lSceSysmodule -lSceAudioOut -lSceUserService -lScePigletv2VSH -lSceSysmodule -lSceFreeType \
