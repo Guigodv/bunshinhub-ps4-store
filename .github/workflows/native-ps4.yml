@@ -63,6 +63,18 @@ jobs:
       - name: Validate BunshinHub package sources
         run: python3 scripts/check_package_config.py
 
+      # The legacy LibOrbisPkg binary bundles .NET Core 3.x; it requires OpenSSL 1.1.
+      # Install only on the short-lived CI runner, not on users' machines or PS4.
+      - name: Install compatibility runtime for legacy PS4 PKG tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 2 \
+            "https://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb" \
+            -o "$RUNNER_TEMP/libssl1.1.deb"
+          sudo dpkg -i "$RUNNER_TEMP/libssl1.1.deb"
+          ldconfig -p | grep -F 'libssl.so.1.1'
+
       - name: Compile PS4 loader
         run: make -C Store-Loader -j2
 
