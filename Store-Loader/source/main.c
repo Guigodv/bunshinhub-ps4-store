@@ -218,13 +218,13 @@ bool update_version_by_hash(char* path)
 
 bool checkForUpdate(char *cdnbuf)
 {
-    unlink("/user/app/NPXS39041/homebrew.elf.sig");
+    unlink("/user/app/BUNSH0001/homebrew.elf.sig");
 
-	if (if_exists("/user/app/NPXS39041/homebrew.elf") && if_exists("/user/app/NPXS39041/local.md5"))
+	if (if_exists("/user/app/BUNSH0001/homebrew.elf") && if_exists("/user/app/BUNSH0001/local.md5"))
 	{
 		logshit("[STORE_GL_Loader:%s:%i] ----- ELF exists ---\n", __FUNCTION__, __LINE__);
 		logshit("[STORE_GL_Loader:%s:%i] ----- Comparing Hashs ---\n", __FUNCTION__, __LINE__);
-		int comp = MD5_hash_compare("/user/app/NPXS39041/remote.md5", "/user/app/NPXS39041/local.md5");
+		int comp = MD5_hash_compare("/user/app/BUNSH0001/remote.md5", "/user/app/BUNSH0001/local.md5");
 		if (comp == DIFFERENT_HASH)
              goto copy_update;
         else
@@ -240,15 +240,15 @@ bool checkForUpdate(char *cdnbuf)
 copy_update:
     msgok(getLangSTR(UPDATE_REQ));
 	progstart(getLangSTR(DOWNLOADING_UPDATE));
-	unlink("/user/app/NPXS39041/homebrew.elf");
-    unlink("/user/app/NPXS39041/local.md5");
+	unlink("/user/app/BUNSH0001/homebrew.elf");
+    unlink("/user/app/BUNSH0001/local.md5");
         
-     if(download_file(cdnbuf, "/user/app/NPXS39041/homebrew.elf") == 200)
+     if(download_file(cdnbuf, "/user/app/BUNSH0001/homebrew.elf") == 200)
      {
-	     if (copyFile("/user/app/NPXS39041/remote.md5", "/user/app/NPXS39041/local.md5") != 0)
+	     if (copyFile("/user/app/BUNSH0001/remote.md5", "/user/app/BUNSH0001/local.md5") != 0)
 			 return false;
 	     else{  
-		   unlink("/user/app/NPXS39041/remote.md5");
+		   unlink("/user/app/BUNSH0001/remote.md5");
 		   msgok(getLangSTR(UPDATE_APPLIED));
 		   return true;
 		 }
@@ -287,10 +287,22 @@ void loader_rooted(){
     char buff[600];
 
 	    logshit("======== HELLO FROM ROOTED LOADER ======\n");
-		mkdir("/user/app/NPXS39041/", 0777);
-		mkdir("/user/app/NPXS39041/storedata/", 0777);
-		mkdir("/user/app/NPXS39041/logs/", 0777);
-		unlink("/user/app/NPXS39041/logs/loader.log");
+		mkdir("/user/app/BUNSH0001/", 0777);
+		mkdir("/user/app/BUNSH0001/storedata/", 0777);
+		mkdir("/user/app/BUNSH0001/logs/", 0777);
+		unlink("/user/app/BUNSH0001/logs/loader.log");
+
+		/* BunshinHub preview: start the native ELF packaged with this PKG.
+		 * Do not fetch and replace the customized ELF with upstream Store updates. */
+		if (if_exists("/app0/homebrew.elf")) {
+			mkdir("/data/self", 0777);
+			if (copyFile("/app0/homebrew.elf", "/data/self/BunshinHub.self") == 0) {
+				logshit("BunshinHub: launching bundled homebrew.elf\\n");
+				return;
+			}
+			logshit("BunshinHub: bundled ELF copy failed\\n");
+		}
+
 		
 
 		logshit("[STORE_GL_Loader:%s:%i] -----  All Internal Modules Loaded  -----\n", __FUNCTION__, __LINE__);
@@ -298,7 +310,7 @@ void loader_rooted(){
 		logshit("[STORE_GL_Loader:%s:%i] -----  STORE Version: %s  -----\n", __FUNCTION__, __LINE__, completeVersion);
 		logshit("----------------------------------------------- -------------------------\n");
 
-		config.opt[CDN_URL] = "https://api.pkg-zone.com";
+		config.opt[CDN_URL] = "https://bunshinhub.invalid";
 		config.SECURE_BOOT = true;
 		config.Copy_INI = false;
 
@@ -313,21 +325,21 @@ void loader_rooted(){
 			else {
 
 				if (config.Copy_INI)
-					copyFile("/mnt/usb0/settings.ini", "/user/app/NPXS39041/settings.ini");
+					copyFile("/mnt/usb0/settings.ini", "/user/app/BUNSH0001/settings.ini");
 			}
 
 			logshit("[STORE_GL_Loader:%s:%i] ----- USB INI CDN: %s Secure Boot: %i ---\n", __FUNCTION__, __LINE__, config.opt[CDN_URL], config.SECURE_BOOT);
 		} 
         else
         {
-		    if (!if_exists("/user/app/NPXS39041/settings.ini"))
+		    if (!if_exists("/user/app/BUNSH0001/settings.ini"))
 		    {
 				logshit("[STORE_GL_Loader:%s:%i] ----- APP INI Not Found, Making ini ---\n", __FUNCTION__, __LINE__);
 
 				memset(&buff[0], 0, sizeof buff);
-				snprintf(&buff[0], sizeof buff, "[Settings]\nCDN=https://api.pkg-zone.com\nSecure_Boot=1\ntemppath=/user/app/NPXS39041/downloads\nStoreOnUSB=0\nShow_install_prog=1\nHomeMenu_Redirection=0\nDaemon_on_start=1\nLegacy=0\n");
+				snprintf(&buff[0], sizeof buff, "[Settings]\nCDN=https://bunshinhub.invalid\nSecure_Boot=1\ntemppath=/user/app/BUNSH0001/downloads\nStoreOnUSB=0\nShow_install_prog=1\nHomeMenu_Redirection=0\nDaemon_on_start=1\nLegacy=0\n");
 
-				int fd = open("/user/app/NPXS39041/settings.ini", O_WRONLY | O_CREAT | O_TRUNC, 0777);
+				int fd = open("/user/app/BUNSH0001/settings.ini", O_WRONLY | O_CREAT | O_TRUNC, 0777);
 				if (fd >= 0)
 				{
 					write(fd, &buff[0], strlen(&buff[0]));
@@ -336,14 +348,14 @@ void loader_rooted(){
 				else
 					logshit("Could not make create INI File");
 
-				mkdir("/user/app/NPXS39041/downloads", 0777);
+				mkdir("/user/app/BUNSH0001/downloads", 0777);
 				config.SECURE_BOOT = true;
 
 		    }			
 		    else
 		    {
 				logshit("[STORE_GL_Loader:%s:%i] ----- INI FOUND ---\n", __FUNCTION__, __LINE__);
-				int error = ini_parse("/user/app/NPXS39041/settings.ini", print_ini_info, &config);
+				int error = ini_parse("/user/app/BUNSH0001/settings.ini", print_ini_info, &config);
 				if (error) {
 					printf("Bad config file (first error on line %d)!\n", error);
 				}
@@ -365,7 +377,7 @@ void loader_rooted(){
 
 			sceMsgDialogTerminate();
 
-			if ((dl_ret = download_file(cdnbuf, "/user/app/NPXS39041/remote.md5")) == 200){
+			if ((dl_ret = download_file(cdnbuf, "/user/app/BUNSH0001/remote.md5")) == 200){
 				logshit("[STORE_GL_Loader:%s:%i] ----- Downloaded remote.md5 ---\n", __FUNCTION__, __LINE__);
 				if (VerifyRSA)
 				{
@@ -383,7 +395,7 @@ void loader_rooted(){
 							logshit("[STORE_GL_Loader:%s:%i] ----- Secure Boot is ENABLED ---\n", __FUNCTION__, __LINE__);
 							logshit("[STORE_GL_Loader:%s:%i] ----- Checking Revocation list..... ---\n", __FUNCTION__, __LINE__);
 
-							if (update_version_by_hash("/user/app/NPXS39041/homebrew.elf"))
+							if (update_version_by_hash("/user/app/BUNSH0001/homebrew.elf"))
 								logshit("[STORE_GL_Loader:%s:%i] ----- Update is NOT part of the revoked listed ---\n", __FUNCTION__, __LINE__);
 							else{
                                 msgok("%s\n\n%s", getLangSTR(LOADER_FATAL),getLangSTR(SWU_ERROR));
@@ -392,18 +404,18 @@ void loader_rooted(){
 
 
 							logshit("[STORE_GL_Loader:%s:%i] ----- Downloading RSA Sig CDN: %s ---\n", __FUNCTION__, __LINE__, cdnbuf);
-							if (download_file(cdnbuf, "/user/app/NPXS39041/homebrew.elf.sig") == 200)
+							if (download_file(cdnbuf, "/user/app/BUNSH0001/homebrew.elf.sig") == 200)
 							{
 								loadmsg(getLangSTR(RSA_LOAD));
 
 								logshit("VerifyRSA resolved from PRX\n");
 
-								if ((ret = VerifyRSA("/user/app/NPXS39041/homebrew.elf", "/mnt/sandbox/NPXS39041_000/app0/Media/rsa.pub")) != 0){
+								if ((ret = VerifyRSA("/user/app/BUNSH0001/homebrew.elf", "/mnt/sandbox/BUNSH0001_000/app0/Media/rsa.pub")) != 0){
 								   msgok("%s\n\n%s: %x\n", getLangSTR(LOADER_FATAL),getLangSTR(RSA_FAILED),ret);
-								   unlink("/user/app/NPXS39041/homebrew.elf");
-								   unlink("/user/app/NPXS39041/homebrew.elf.sig");
-								   unlink("/user/app/NPXS39041/remote.md5");
-								   unlink("/user/app/NPXS39041/local.md5");
+								   unlink("/user/app/BUNSH0001/homebrew.elf");
+								   unlink("/user/app/BUNSH0001/homebrew.elf.sig");
+								   unlink("/user/app/BUNSH0001/remote.md5");
+								   unlink("/user/app/BUNSH0001/local.md5");
 								   goto exit_sec;
 								}
 								else{
@@ -418,7 +430,7 @@ void loader_rooted(){
 							}
 						}
 
-						if (copyFile("/user/app/NPXS39041/homebrew.elf", "/data/self/Store.self") != 0) 
+						if (copyFile("/user/app/BUNSH0001/homebrew.elf", "/data/self/BunshinHub.self") != 0) 
 						    goto err;
 						else
 						   return;
@@ -482,7 +494,7 @@ int main(int argc, char* argv[])
 	}
 
 	logshit("[STORE_GL_Loader:%s:%i] ----- Launching() ---\n", __FUNCTION__, __LINE__);
-	if (sceSystemServiceLoadExec("/data/self/Store.self", (const char**)argv) == 0)
+	if (sceSystemServiceLoadExec("/data/self/BunshinHub.self", (const char**)argv) == 0)
 	    logshit("[STORE_GL_Loader:%s:%i] ----- Launched (shouldnt see) ---\n", __FUNCTION__, __LINE__);
 
 err:
