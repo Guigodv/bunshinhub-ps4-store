@@ -25,7 +25,7 @@ jobs:
       - name: Install PS4 build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang lld make curl libicu-dev
+          sudo apt-get install -y clang lld make curl libicu-dev libcurl4-openssl-dev
           which clang
           which ld.lld
 
@@ -51,6 +51,15 @@ jobs:
           test -f "$SDK_ROOT/bin/linux/PkgTool.Core"
           ls -lh "$SDK_ROOT/bin/linux/PkgTool.Core"
           echo "OO_PS4_TOOLCHAIN=$SDK_ROOT" >> "$GITHUB_ENV"
+          # The OpenOrbis release does not bundle cURL development headers.
+          # Stage headers separately; actual PS4 linking still requires a compatible libcurl.
+          if [ ! -f "$SDK_ROOT/include/curl/curl.h" ]; then
+            test -f /usr/include/x86_64-linux-gnu/curl/curl.h
+            cp -R /usr/include/x86_64-linux-gnu/curl "$SDK_ROOT/include/"
+          fi
+          test -f "$SDK_ROOT/include/curl/curl.h"
+          echo "cURL headers staged for cross-compilation"
+          find "$SDK_ROOT/lib" -maxdepth 1 -iname '*curl*' -print || true
 
       - name: Validate BunshinHub package sources
         run: python3 scripts/check_package_config.py
