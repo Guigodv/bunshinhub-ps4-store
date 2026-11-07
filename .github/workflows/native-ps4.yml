@@ -38,11 +38,19 @@ jobs:
             "https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/download/v0.5.4/toolchain-llvm-18.tar.gz" \
             -o "$RUNNER_TEMP/openorbis.tar.gz"
           tar -xzf "$RUNNER_TEMP/openorbis.tar.gz" -C "$RUNNER_TEMP/openorbis"
-          find "$RUNNER_TEMP/openorbis" -maxdepth 3 -name PkgTool.Core -print
-          ls -l "$RUNNER_TEMP/openorbis"
-          test -f "$RUNNER_TEMP/openorbis/link.x"
-          test -f "$RUNNER_TEMP/openorbis/bin/linux/PkgTool.Core"
-          echo "OO_PS4_TOOLCHAIN=$RUNNER_TEMP/openorbis" >> "$GITHUB_ENV"
+          # A release archive contains an extra OpenOrbis/ directory.
+          # Resolve the actual SDK root rather than assuming the extraction root.
+          SDK_LINKER="$(find "$RUNNER_TEMP/openorbis" -type f -name link.x -print -quit)"
+          if [ -z "$SDK_LINKER" ]; then
+            echo "::error::OpenOrbis link.x was not found in the extracted SDK"
+            find "$RUNNER_TEMP/openorbis" -maxdepth 3 -type d -print
+            exit 1
+          fi
+          SDK_ROOT="$(dirname "$SDK_LINKER")"
+          echo "OpenOrbis SDK root: $SDK_ROOT"
+          test -f "$SDK_ROOT/bin/linux/PkgTool.Core"
+          ls -lh "$SDK_ROOT/bin/linux/PkgTool.Core"
+          echo "OO_PS4_TOOLCHAIN=$SDK_ROOT" >> "$GITHUB_ENV"
 
       - name: Validate BunshinHub package sources
         run: python3 scripts/check_package_config.py
