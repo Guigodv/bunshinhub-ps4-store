@@ -1,9 +1,9 @@
 
 # Package metadata.
-TITLE       := Store
+TITLE       := BunshinHub
 VERSION     := 2.00
-TITLE_ID    := NPXS39041
-CONTENT_ID  := IV0002-NPXS39041_00-STOREUPD00000000
+TITLE_ID    := BUNSH0001
+CONTENT_ID  := IV0002-BUNSH0001_00-STOREUPD00000000
 
 # Libraries linked into the ELF.
 LIBS        := -luser_mem_sys -lc++ -lz -ljbc -lc -lkernel  -lcurl  -lpolarssl -lSceVideoOut -lSceNet -lSceSysmodule -lSceAudioOut -lSceUserService -lScePigletv2VSH -lSceSysmodule -lSceFreeType \
@@ -57,9 +57,9 @@ ifeq ($(UNAME_S),Darwin)
 		ASMLR   := as
 endif
 
-all: Store-R2.pkg
+all: BunshinHub.pkg
 
-Store-R2.pkg: pkg.gp4
+BunshinHub.pkg: pkg.gp4
 	$(TOOLCHAIN)/bin/$(CDIR)/PkgTool.Core pkg_build $< .
 
 pkg.gp4: eboot.bin sce_sys/param.sfo
@@ -92,5 +92,5 @@ $(INTDIR)/%.o: $(PROJDIR)/%.cpp
 	$(CCX) $(CXXFLAGS) -o $@ $<
 
 clean:
-	rm -f Store-R2.pkg sce_sys/param.sfo eboot.bin \
+	rm -f BunshinHub.pkg sce_sys/param.sfo eboot.bin \
 		$(INTDIR)/$(PROJDIR).elf $(INTDIR)/$(PROJDIR).oelf $(OBJS)
