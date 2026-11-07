@@ -271,11 +271,11 @@ static int print_ini_info(void* user, const char* section, const char* name,
 }
 
 bool is_source_unsafe(const std::string& input) {
-    const std::string main_api = "api.pkg-zone.com";
+    const std::string main_api = "bunshinhub.invalid";
     const std::string beta_api = "pkg-zone.com/storage/store_beta";
 #if BETA==1
     if(input.find(beta_api) != std::string::npos){
-        set.opt[CDN_URL] = "https://api.pkg-zone.com";
+        set.opt[CDN_URL] = "https://bunshinhub.invalid";
         return false;
     }
 #endif
@@ -293,12 +293,12 @@ bool LoadOptions()
     int error = 1;
     unsigned int usb_num = usbpath();
 
-    set.opt[CDN_URL] = "https://api.pkg-zone.com";
+    set.opt[CDN_URL] = "https://bunshinhub.invalid";
     set.auto_install = true;
     set.Legacy_Install = false;
     set.auto_load_cache = true;
     unsafe_source = false;
-    set.opt[TMP_PATH] =  "/user/app/NPXS39041/downloads";
+    set.opt[TMP_PATH] =  "/user/app/BUNSH0001/downloads";
     set.opt[FNT_PATH] = "/system_ex/app/NPXS20113/bdjstack/lib/fonts/SCE-PS3-RD-R-LATIN.TTF";
 
     /* Initialize INI structure */
@@ -309,9 +309,9 @@ bool LoadOptions()
         if (!if_exists(buf.c_str()))
         {
             log_warn( "No INI on USB");
-            if (if_exists("/user/app/NPXS39041/settings.ini")) {
-                set.opt[INI_PATH] = "/user/app/NPXS39041/settings.ini";
-                error = ini_parse("/user/app/NPXS39041/settings.ini", print_ini_info, NULL);
+            if (if_exists("/user/app/BUNSH0001/settings.ini")) {
+                set.opt[INI_PATH] = "/user/app/BUNSH0001/settings.ini";
+                error = ini_parse("/user/app/BUNSH0001/settings.ini", print_ini_info, NULL);
                 if (error) log_error("Bad config file (first error on line %d)!\n", error);
             }
 
@@ -322,14 +322,14 @@ bool LoadOptions()
             set.opt[INI_PATH] = fmt::format("/mnt/usb{}/settings.ini", usb_num);
         }
     }
-    else if (!if_exists("/user/app/NPXS39041/settings.ini"))
+    else if (!if_exists("/user/app/BUNSH0001/settings.ini"))
     {
         log_error("CANT FIND INI"); no_error = false;
     } else {
-        error = ini_parse("/user/app/NPXS39041/settings.ini", print_ini_info, NULL);
+        error = ini_parse("/user/app/BUNSH0001/settings.ini", print_ini_info, NULL);
         if (error) log_error("Bad config file (first error on line %d)!\n", error);
         log_info( "Loading ini from APP DIR");
-        set.opt[INI_PATH] = "/user/app/NPXS39041/settings.ini";
+        set.opt[INI_PATH] = "/user/app/BUNSH0001/settings.ini";
     }
     
     unsafe_source = is_source_unsafe(set.opt[CDN_URL]);
@@ -372,30 +372,30 @@ bool LoadOptions()
 
         switch (lang) {
         case 0: //jAPN IS GREAT
-            //strcpy(set.opt[FNT_PATH], "/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/NotoSansJP-Regular.ttf");
-            set.opt[FNT_PATH] = "/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/NotoSansJP-Regular.ttf";
+            //strcpy(set.opt[FNT_PATH], "/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/NotoSansJP-Regular.ttf");
+            set.opt[FNT_PATH] = "/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/NotoSansJP-Regular.ttf";
             break;
         case 9:///THIS IS FOR JOON, IF HE COMES BACK
-            set.opt[FNT_PATH] = "/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/NotoSansKR-Regular.ttf";
+            set.opt[FNT_PATH] = "/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/NotoSansKR-Regular.ttf";
             break;
         case 21:
         case 23:
         case 24:
         case 25:
         case 26:
-            //strcpy(set.opt[FNT_PATH], "/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/HelveticaWorld-Multi.ttf");
-            set.opt[FNT_PATH] = "/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/HelveticaWorld-Multi.ttf";
+            //strcpy(set.opt[FNT_PATH], "/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/HelveticaWorld-Multi.ttf");
+            set.opt[FNT_PATH] = "/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/HelveticaWorld-Multi.ttf";
             break;
             //NO USERS HAS TRANSLATED THE FOLLOWING LANGS, SO I DELETED THEM OUT THE PKG TO SAVE SPACE
             /*
             case 10:
-                strcpy(set.opt[FNT_PATH],"/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/NotoSansTC-Regular.ttf");
+                strcpy(set.opt[FNT_PATH],"/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/NotoSansTC-Regular.ttf");
                 break;
             case 11:
-                strcpy(set.opt[FNT_PATH],"/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/NotoSansSC-Regular.ttf");
+                strcpy(set.opt[FNT_PATH],"/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/NotoSansSC-Regular.ttf");
                 break;
             case 27:
-                strcpy(set.opt[FNT_PATH],"/mnt/sandbox/pfsmnt/NPXS39041-app0/assets/fonts/NotoSansThai-Regular.ttf");
+                strcpy(set.opt[FNT_PATH],"/mnt/sandbox/pfsmnt/BUNSH0001-app0/assets/fonts/NotoSansThai-Regular.ttf");
                 break;*/
         default:
             break;
@@ -413,8 +413,8 @@ bool LoadOptions()
     log_info( "set.auto_load_cache : %i", set.auto_load_cache);
     log_info( "Unsafe Sources    : %i", unsafe_source);
 
-//strcpy(set.opt[CDN_URL], "https://api.pkg-zone.com");
-   // strcpy(set.opt[CDN_URL], "https://api.pkg-zone.com");
+//strcpy(set.opt[CDN_URL], "https://bunshinhub.invalid");
+   // strcpy(set.opt[CDN_URL], "https://bunshinhub.invalid");
 
     return no_error;
 }
@@ -426,7 +426,7 @@ bool SaveOptions()
 {  
     bool no_error = true;
     #if BETA==1
-    set.opt[CDN_URL] = "https://api.pkg-zone.com/storage/store_beta";
+    set.opt[CDN_URL] = "https://bunshinhub.invalid/storage/store_beta";
     #endif
 
     std::ostringstream oss;
@@ -904,7 +904,7 @@ int check_store_from_url(const std::string cdn, CHECK_OPTS opt)
 
         case BETA_CHECK:
         {
-            std::string url = "https://api.pkg-zone.com/key/beta/check?key=" + set.opt[BETA_KEY];
+            std::string url = "https://bunshinhub.invalid/key/beta/check?key=" + set.opt[BETA_KEY];
             log_info("FULL URL: %s", url.c_str());
             return std::stoi(check_from_url(url, BETA_CHECK, false));
         }
