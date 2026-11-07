@@ -3,7 +3,7 @@
   <volume>
     <volume_type>pkg_ps4_app</volume_type>
     <volume_ts>2021-11-16 23:01:37</volume_ts>
-    <package content_id="IV0002-NPXS39041_00-STOREUPD00000000" passcode="00000000000000000000000000000000" storage_type="digital50" app_type="full" />
+    <package content_id="IV0002-BUNSH0001_00-BUNSHINHUB000001" passcode="00000000000000000000000000000000" storage_type="digital50" app_type="full" />
     <chunk_info chunk_count="1" scenario_count="1">
       <chunks>
         <chunk id="0" layer_no="0" label="Chunk #0" />
@@ -15,7 +15,7 @@
   </volume>
   <files img_no="0">
     <file targ_path="sce_sys/icon0.png" orig_path="../App Media-Assets/sce_sys/icon0.png" />
-    <file targ_path="sce_sys/param.sfo" orig_path="../App Media-Assets/sce_sys/param.sfo" />
+    <file targ_path="sce_sys/param.sfo" orig_path="sce_sys/param.sfo" />
     <file targ_path="assets/fonts/HelveticaWorld-Multi.ttf" orig_path="../App Media-Assets/assets/fonts/HelveticaWorld-Multi.ttf" />
     <file targ_path="assets/fonts/NotoSansJP-Regular.ttf" orig_path="../App Media-Assets/assets/fonts/NotoSansJP-Regular.ttf" />
     <file targ_path="assets/fonts/NotoSansKR-Regular.ttf" orig_path="../App Media-Assets/assets/fonts/NotoSansKR-Regular.ttf" />
