@@ -29,17 +29,16 @@ jobs:
           which clang
           which ld.lld
 
-      - name: Install OpenOrbis v0.5.4 SDK
+      - name: Install LightningMods Homebrew Store OpenOrbis SDK
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/openorbis"
           curl -fL --retry 3 \
-            "https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/download/v0.5.4/toolchain-llvm-18.tar.gz" \
+            "https://github.com/LightningMods/OpenOrbis-PS4-Toolchain/releases/download/v0.50001/OOSDK.tar.gz" \
             -o "$RUNNER_TEMP/openorbis.tar.gz"
           tar -xzf "$RUNNER_TEMP/openorbis.tar.gz" -C "$RUNNER_TEMP/openorbis"
-          # A release archive contains an extra OpenOrbis/ directory.
-          # Resolve the actual SDK root rather than assuming the extraction root.
+          # Resolve the SDK root even when the archive nests it under OpenOrbis/.
           SDK_LINKER="$(find "$RUNNER_TEMP/openorbis" -type f -name link.x -print -quit)"
           if [ -z "$SDK_LINKER" ]; then
             echo "::error::OpenOrbis link.x was not found in the extracted SDK"
